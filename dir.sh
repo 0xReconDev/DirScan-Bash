@@ -9,6 +9,7 @@ NC='\033[0m'
 
 if [[ "$1" == "" ]] # Verificar se o argumento está vazio.
 then
+	echo -e " \nParâmetros: -o >> Salva os diretórios em um arquivo 'out.txt'.\n"
 	echo -e " ${YELLOW}- - - - - - - - - - - - - - - - - - - - -${NC} "
 	echo -e "${CYAN} Modo de uso: ./dir.sh URL${NC}"
 	echo -e " ${YELLOW}- - - - - - - - - - - - - - - - - - - - -${NC} "
@@ -19,9 +20,12 @@ else
 		directory=$(curl -s -o /dev/null -w "%{http_code}" -A "mkv" "$1"/"$dir") # Recebe o código de status da requisição HTTP.
 		if [[ "$directory" == "200" ]] || [[ "$directory" == "301" ]]
 		then
-			echo -e "${GREEN}$1/$dir (Status - $directory).${NC}" >> out.txt
+			echo -e "${GREEN}$1/$dir (Status - $directory).${NC}"
+
+			if [[ "$3" == "-o" ]]
+			then
+				echo -e "${GREEN}$1/$dir (Status - $directory).${NC}" >> out.txt
+			fi
 		fi
 	done
-	echo ""
-	echo -e "${YELLOW}Lembrando que nem todos os diretórios com o código de status '301', estão realmente ativos nos servidor. Vale a pena checar.${NC}"
 fi
