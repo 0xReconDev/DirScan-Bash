@@ -45,6 +45,7 @@ O script retorna apenas os códigos de status "200" - "301", pode ser alterado o
 
 ### Linha para alteração:
 ```bash
+ directory=$(curl -s -o /dev/null -w "%{http_code}" -A "mkv" "$1"/"$dir")
  if [[ "$directory" == "200" ]] || [[ "$directory" == "301" ]]
 ```
 
